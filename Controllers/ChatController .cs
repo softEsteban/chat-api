@@ -16,6 +16,12 @@ namespace ChatApi.Controllers
             _chatService = chatService;
         }
 
+        [HttpGet("get-online-users")]
+        public async Task<string[]> RegisterUser()
+        {
+            return _chatService.GetOnlineUsers();
+        }
+
         [HttpPost("register-user")]
         public async Task<IActionResult> RegisterUser(UserDto user)
         {
