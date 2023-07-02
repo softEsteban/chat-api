@@ -30,16 +30,21 @@ namespace ChatApi.Services
             await base.OnDisconnectedAsync(exception);
         }
 
-        public async Task DisplayOnlineUsers()
-        {
-            var onlineUsers = _chatService.GetOnlineUsers();
-            await Clients.Groups("MyChat").SendAsync("OnlineUsers", onlineUsers);
-        }
-
         public async Task AddUserConnectionId(string name)
         {
             _chatService.AddUserConnectionId(name, Context.ConnectionId);
             DisplayOnlineUsers();
+        }
+
+        public async Task ReceiveMessage(MessageDto message)
+        {
+            await Clients.Groups("MyChat").SendAsync("NewMessage", message);
+        }
+
+        public async Task DisplayOnlineUsers()
+        {
+            var onlineUsers = _chatService.GetOnlineUsers();
+            await Clients.Groups("MyChat").SendAsync("OnlineUsers", onlineUsers);
         }
     }
 }
